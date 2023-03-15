@@ -6,30 +6,35 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { FormData } from "../../types";
+
+// Firebase constants
 
 const auth = getAuth(firebaseApp);
-
-interface FormInputs {
-  email: string;
-  password: string;
-  role: string;
-}
+const firestore = getFirestore(firebaseApp);
 
 const Login = () => {
+  //Zustand
+
   const { isRegistering, errorLogin } = useStore((state) => ({
     isRegistering: state.isRegistering,
-    errorLogin: state.errorLogin,
+    errorLogin: state.error,
   }));
 
-  const { setIsRegistering, setErrorLogin } = useStore();
+  const { setIsRegistering, setError } = useStore();
+
+  //React Hook Form
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data: any) => {
+  //Functions
+
+  const onSubmit: SubmitHandler<FormData> = async (data: any) => {
     const email = data.email;
     const password = data.password;
     const role = data.role;
@@ -37,16 +42,28 @@ const Login = () => {
     if (isRegistering) {
       //Register
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const infoUser = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        ).then((userFirebase) => {
+          return userFirebase;
+        });
+
+        console.log(infoUser);
+
+        const docuRef = doc(firestore, `users/${infoUser.user.uid}`);
+
+        setDoc(docuRef, { email: email, role: role });
       } catch (error) {
-        setErrorLogin("There is an account with this data");
+        setError("Account already exists");
       }
     } else {
       //Login
       try {
         await signInWithEmailAndPassword(auth, email, password);
       } catch (error) {
-        setErrorLogin("There is no account with this data");
+        setError("There is no account with this data, you must register");
       }
     }
   };
@@ -105,21 +122,10 @@ const Login = () => {
         {isRegistering ? (
           <div>
             <p>ROLE *</p>
-            <select
-              {...register("role", {
-                required: true,
-                minLength: 6,
-              })}
-            >
-              <option value="admin">Admin</option>
-              <option value="admin">User</option>
+            <select {...register("role")}>
+              <option value="hrspecialist">HR Specialist</option>
+              <option value="employee">Employee</option>
             </select>
-
-            {errors.role && (
-              <span>
-                {errors.role.type === "required" && "This field is required"}
-              </span>
-            )}
           </div>
         ) : null}
 
