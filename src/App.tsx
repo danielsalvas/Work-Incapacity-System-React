@@ -36,7 +36,6 @@ function App() {
             role: role,
           };
           setUser(userData);
-          console.log(userData);
         });
       }
     } else {

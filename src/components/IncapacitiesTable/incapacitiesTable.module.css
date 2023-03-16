@@ -1,0 +1,19 @@
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+
+
+.container__filters {
+    display: flex;
+    justify-content: space-between;
+}
+.search__input {
+    width: 763px;
+    height: 47px;
+    border-radius: 10px;
+    border: 2px solid lightgray;
+    margin-left: 75px ;
+    margin-bottom: 25px;
+}
+
+.filtro__fechas {
+    margin-right: 80px;
+}

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 html {
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
 }
 
 body {
@@ -10,4 +10,39 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* DATA TABLE STYLES */
+
+/* COMPLETE TABLE AND ROWS */
+
+.jWpMhA {
+  background-color: #F5F5F5 !important;
+}
+
+.hXLGuA {
+  width: 90% !important;
+  margin: 0 auto;
+  
+}
+
+
+/* PAGINATION */
+
+.cOhUY {
+  justify-content: flex-start !important;
+  margin-left: 70px !important;
+  width: 90% !important;
+}
+
+.ihCgAW {
+  display: none !important;
+}
+
+.cBxjhB {
+  position: absolute;
+  right: 50px;
+}
+
+
+
 

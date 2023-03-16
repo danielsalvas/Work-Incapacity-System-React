@@ -6,8 +6,7 @@ import userImage from "../../assets/userImage.png";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import styles from "./header.module.css";
 import { Props } from "../../types";
-
-
+import ModalForm from "../ModalFormHr/ModalForm";
 
 //Firebase
 
@@ -25,7 +24,7 @@ const Header = ({ uid }: Props) => {
 
     const infoDocu = query.data();
 
-    setName(infoDocu?.name)
+    setName(infoDocu?.name);
   }
 
   getDocument(uid);
@@ -45,11 +44,14 @@ const Header = ({ uid }: Props) => {
         <img src={userImage} alt="user-image" />
         <div className={styles.info__user}>
           <p>{name}</p>
-          <a onClick={logOut}><i className="fa-solid fa-arrow-right-from-bracket"></i>Log out</a>
+          <a onClick={logOut}>
+            <i className="fa-solid fa-arrow-right-from-bracket"></i>Log out
+          </a>
         </div>
       </div>
       <div className={styles.button__new__aplication}>
         <button>New Aplication</button>
+        <ModalForm />
       </div>
     </div>
   );

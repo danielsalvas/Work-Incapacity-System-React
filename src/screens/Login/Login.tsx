@@ -54,8 +54,6 @@ const Login = () => {
           return userFirebase;
         });
 
-        console.log(infoUser);
-
         const docuRef = doc(firestore, `users/${infoUser.user.uid}`);
 
         setDoc(docuRef, { name: name, email: email, role: role });
