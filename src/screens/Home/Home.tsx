@@ -1,30 +1,15 @@
-import firebaseApp from "../../firebase/credentials";
-import { getAuth, signOut } from "firebase/auth";
-import { useStore } from "../../store";
-import HrSpecialistView from "../../components/AdminView/HrSpecialistView";
-import EmployeeView from "../../components/UserView/EmployeeView";
-
-const auth = getAuth(firebaseApp);
+import HrSpecialistView from "../../components/HrSpecialistView/HrSpecialistView";
+import EmployeeView from "../../components/EmployeeView/EmployeeView";
 
 type Props = {
   role: string;
+  uid: string;
 };
 
-const Home = ({ role }: Props) => {
-  //Zustand
-  const { setError } = useStore();
-
-  //Functions
-
-  const logOut = () => {
-    signOut(auth);
-    setError("");
-  };
-
+const Home = ({ role, uid }: Props) => {
   return (
     <div>
-      {role === "hrspecialist" ? <HrSpecialistView /> : <EmployeeView />}
-      <button onClick={logOut}>Sign out</button>
+      {role === "hrspecialist" ? <HrSpecialistView uid={uid} /> : <EmployeeView />}
     </div>
   );
 };

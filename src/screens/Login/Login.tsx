@@ -169,7 +169,7 @@ const Login = () => {
             <input
               className={styles.submit__button}
               type="submit"
-              value={isRegistering ? "Sign Up" : "Login"}
+              value={isRegistering ? "Sign Up" : "Log in"}
             />
           </div>
         </form>

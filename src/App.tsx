@@ -44,7 +44,7 @@ function App() {
     }
   });
 
-  return <div className="app">{user ? <Home role={user.role} /> : <Login />}</div>;
+  return <div className="app">{user ? <Home role={user.role} uid={user.uid} /> : <Login />}</div>;
 }
 
 export default App;
