@@ -1,11 +1,6 @@
 export interface FormData {
+    name: string
     email: string
     password: string
-    role: string
-  }
-
-  export interface userData {
-    uid: string
-    email: string | null
     role: string
   }

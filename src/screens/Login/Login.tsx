@@ -5,9 +5,12 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { FormData } from "../../types";
+import styles from "./login.module.css";
+import itoLogo from "../../assets/ito.png";
 
 // Firebase constants
 
@@ -17,9 +20,9 @@ const firestore = getFirestore(firebaseApp);
 const Login = () => {
   //Zustand
 
-  const { isRegistering, errorLogin } = useStore((state) => ({
+  const { isRegistering, error } = useStore((state) => ({
     isRegistering: state.isRegistering,
-    errorLogin: state.error,
+    error: state.error,
   }));
 
   const { setIsRegistering, setError } = useStore();
@@ -35,6 +38,7 @@ const Login = () => {
   //Functions
 
   const onSubmit: SubmitHandler<FormData> = async (data: any) => {
+    const name = data.name;
     const email = data.email;
     const password = data.password;
     const role = data.role;
@@ -54,9 +58,9 @@ const Login = () => {
 
         const docuRef = doc(firestore, `users/${infoUser.user.uid}`);
 
-        setDoc(docuRef, { email: email, role: role });
+        setDoc(docuRef, { name: name, email: email, role: role });
       } catch (error) {
-        setError("Account already exists");
+        setError("Account already exists with this email");
       }
     } else {
       //Login
@@ -69,85 +73,120 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container__login__component}>
       {/* FORM */}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <legend>{isRegistering ? "Register" : "Login"}</legend>
+      <div className={styles.container__elements}>
+        <form
+          className={styles.container__form}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <img className={styles.ito__logo} src={itoLogo} alt="ito-logo" />
+          <legend>{isRegistering ? "Sign Up" : "Login"}</legend>
+          <span className={styles.account__error}>{error}</span>
 
-        {/* EMAIL */}
+          {/* NAME */}
 
-        <div>
-          <p>EMAIL *</p>
-          <input
-            type="text"
-            placeholder="Email"
-            {...register("email", {
-              required: true,
-              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            })}
-          />
-          {errors.email && (
-            <span>
-              {errors.email.type === "required" && "This field is required."}
-              {errors.email.type === "pattern" && "Invalid Email Address"}
-            </span>
+          {isRegistering && (
+            <div className={styles.container__input__error}>
+              <input
+                type="text"
+                placeholder="Name"
+                {...register("name", {
+                  required: true,
+                })}
+              />
+              {errors.name && (
+                <span className={styles.input__error}>
+                  {errors.name.type === "required" && "This field is required."}
+                </span>
+              )}
+            </div>
           )}
-        </div>
 
-        {/* PASSWORD */}
+          {/* EMAIL */}
 
-        <div>
-          <p>PASSWORD *</p>
-          <input
-            type="password"
-            placeholder="Password"
-            {...register("password", {
-              required: true,
-              minLength: 6,
-            })}
-          />
-
-          {errors.password && (
-            <span>
-              {errors.password.type === "required" && "This field is required"}
-              {errors.password.type === "minLength" &&
-                "Min length of password is 6 Char"}
-            </span>
-          )}
-        </div>
-
-        {/* ROLE */}
-
-        {isRegistering ? (
-          <div>
-            <p>ROLE *</p>
-            <select {...register("role")}>
-              <option value="hrspecialist">HR Specialist</option>
-              <option value="employee">Employee</option>
-            </select>
+          <div className={styles.container__input__error}>
+            <input
+              type="text"
+              placeholder="Email"
+              {...register("email", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+            />
+            {errors.email && (
+              <span className={styles.input__error}>
+                {errors.email.type === "required" && "This field is required."}
+                {errors.email.type === "pattern" && "Invalid Email Address"}
+              </span>
+            )}
           </div>
-        ) : null}
 
-        {/* SUBMIT */}
+          {/* PASSWORD */}
 
-        <div>
-          <input type="submit" value={isRegistering ? "Register" : "Login"} />
+          <div className={styles.container__input__error}>
+            <input
+              type="password"
+              placeholder="Password"
+              {...register("password", {
+                required: true,
+                minLength: 6,
+              })}
+            />
+
+            {errors.password && (
+              <span className={styles.input__error}>
+                {errors.password.type === "required" &&
+                  "This field is required"}
+                {errors.password.type === "minLength" &&
+                  "Min length of password is 6 Char"}
+              </span>
+            )}
+
+            {!isRegistering && (
+              <a className={styles.forgot__password} href="">
+                Forgot password?
+              </a>
+            )}
+          </div>
+
+          {/* ROLE */}
+
+          {isRegistering ? (
+            <div className={styles.container__input__error}>
+              <p>Choose your role in the company:</p>
+              <select {...register("role")}>
+                <option value="hrspecialist">HR Specialist</option>
+                <option value="employee">Employee</option>
+              </select>
+            </div>
+          ) : null}
+
+          {/* SUBMIT */}
+
+          <div>
+            <input
+              className={styles.submit__button}
+              type="submit"
+              value={isRegistering ? "Sign Up" : "Login"}
+            />
+          </div>
+        </form>
+
+        {/* FORM TOGGLE */}
+
+        <div className={styles.form__toggle}>
+          <p>
+            {isRegistering
+              ? "Already have an account?"
+              : "Don't have an account?"}
+          </p>
+          <a onClick={() => setIsRegistering(!isRegistering)}>
+            {isRegistering ? "Login" : "Sign Up"}
+          </a>
         </div>
-      </form>
-
-      <div>
-        <p>
-          {isRegistering
-            ? "Already have an account?"
-            : "Don't have an account?"}
-        </p>
-        <button onClick={() => setIsRegistering(!isRegistering)}>
-          {isRegistering ? "Login" : "Register"}
-        </button>
       </div>
-
-      {errorLogin}
     </div>
   );
 };

@@ -3,7 +3,6 @@ import { getAuth, signOut } from "firebase/auth";
 import { useStore } from "../../store";
 import HrSpecialistView from "../../components/AdminView/HrSpecialistView";
 import EmployeeView from "../../components/UserView/EmployeeView";
-import { userData } from "../../types";
 
 const auth = getAuth(firebaseApp);
 

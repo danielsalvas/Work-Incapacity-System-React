@@ -4,20 +4,14 @@ import Login from "./screens/Login/Login";
 import firebaseApp from "./firebase/credentials";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { userData } from "./types";
 import "./App.css";
 
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 
-const initialState = {
-  email: "",
-  uid: "",
-  role: "",
-};
 
 function App() {
-  const [user, setUser] = useState<userData>(initialState);
+  const [user, setUser] = useState<any>(null);
 
   //Get the role function
 
@@ -46,11 +40,11 @@ function App() {
         });
       }
     } else {
-      setUser(initialState);
+      setUser(null);
     }
   });
 
-  return <div>{user ? <Home role={user.role} /> : <Login />}</div>;
+  return <div className="app">{user ? <Home role={user.role} /> : <Login />}</div>;
 }
 
 export default App;
