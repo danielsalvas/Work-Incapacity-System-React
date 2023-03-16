@@ -1,6 +1,6 @@
 import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
-import DataTable from "../DataTable/DataTable";
+import DataTable from "../IncapacitiesTable/IncapacitiesTable";
 
 type Props = {
   uid: string;
