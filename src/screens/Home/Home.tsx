@@ -1,15 +1,15 @@
 import HrSpecialistView from "../../components/HrSpecialistView/HrSpecialistView";
 import EmployeeView from "../../components/EmployeeView/EmployeeView";
-
-type Props = {
-  role: string;
-  uid: string;
-};
+import { Props } from "../../types";
 
 const Home = ({ role, uid }: Props) => {
   return (
     <div>
-      {role === "hrspecialist" ? <HrSpecialistView uid={uid} /> : <EmployeeView />}
+      {role === "hrspecialist" ? (
+        <HrSpecialistView uid={uid} role={role} />
+      ) : (
+        <EmployeeView uid={uid} role={role} />
+      )}
     </div>
   );
 };

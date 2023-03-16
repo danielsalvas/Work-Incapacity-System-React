@@ -5,10 +5,9 @@ import { getAuth, signOut } from "firebase/auth";
 import userImage from "../../assets/userImage.png";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import styles from "./header.module.css";
+import { Props } from "../../types";
 
-type Props = {
-  uid: string;
-};
+
 
 //Firebase
 

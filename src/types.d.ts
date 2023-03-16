@@ -5,3 +5,7 @@ export interface FormData {
     role: string
   }
 
+ export type Props = {
+    role?: string;
+    uid: string;
+  };

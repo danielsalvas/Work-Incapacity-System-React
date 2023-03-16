@@ -1,19 +1,20 @@
 import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
-import DataTable from "../IncapacitiesTable/IncapacitiesTable";
+import IncapacitiesTable from "../IncapacitiesTable/IncapacitiesTable";
 
 type Props = {
   uid: string;
+  role: string;
 };
 
-const HrSpecialistView = ({uid}: Props) => {
+const HrSpecialistView = ({ uid, role }: Props) => {
   return (
     <div>
       <Header uid={uid} />
       <Filters />
-      <DataTable />
+      <IncapacitiesTable uid={uid} role={role} />
     </div>
-  )
+  );
 };
 
 export default HrSpecialistView;

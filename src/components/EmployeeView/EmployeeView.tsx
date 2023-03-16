@@ -1,10 +1,12 @@
+import Header from "../Header/Header";
+import { Props } from "../../types";
 
-type Props = {}
-
-const EmployeeView = (props: Props) => {
+const EmployeeView = ({ role, uid }: Props) => {
   return (
-    <div>Hi User</div>
-  )
-}
+    <div>
+      <Header uid={uid} />
+    </div>
+  );
+};
 
-export default EmployeeView
+export default EmployeeView;
