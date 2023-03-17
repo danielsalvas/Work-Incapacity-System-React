@@ -1,12 +1,27 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
 import { useStore } from "../../store";
 import styles from "./modalform.module.css";
 import close from "../../assets/close.svg";
 import useUsers from "../../hooks/useUsers";
+import { formattedDate } from "../../helpers/dataTableColumns";
+import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
+import firebaseApp from "../../firebase/credentials";
+import useIncapacities from "../../hooks/useIncapacities";
+
+const firestore = getFirestore(firebaseApp);
 
 const ModalFormHr = () => {
   //Custom hook to obtain all the users in the database
   const { allUsers } = useUsers();
+
+  useEffect(() => {
+    const queryCollection = collection(firestore, "workIncapacities");
+    getDocs(queryCollection).then((res) =>
+      console.log(res.docs.map((incapacity) => ({ ...incapacity.data() })))
+    );
+  }, []);
+
   //Zustand and states
 
   const { animationModal } = useStore((state) => ({
@@ -20,11 +35,36 @@ const ModalFormHr = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
+  //Create new incapacity application
+
+  const onSubmit = async (data: any) => {
+    //Close Modal
     setAnimationModal(false);
     setTimeout(() => {
       setModal(false);
     }, 300);
+
+    const employeeId = data.employee
+
+    const findEmployee = allUsers.find(
+      (user: any) => user.employeeId === employeeId
+    ); //Getting the employee name
+
+    //Data with employee identifier
+
+    const newApplication = {
+      employeeId: employeeId,
+      employee: findEmployee.name,
+      medicalUnit: data.medicalUnit,
+      doctor: data.doctor,
+      coverageDays: data.coverageDays,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      medical: data.medical,
+      applicationDate: formattedDate,
+    };
+
+    addDoc(collection(firestore, "workIncapacities"), newApplication);
   };
 
   //Hide Modal Form function
@@ -59,14 +99,15 @@ const ModalFormHr = () => {
               {/* EMPLOYEE */}
 
               <div className={styles.field}>
-                <p>Employee</p>
-                <input
-                  type="text"
-                  placeholder="Daniel Salgado"
-                  {...register("employee", {
-                    required: true,
-                  })}
-                />
+                <p>Choose Employee</p>
+
+                <select {...register("employee")}>
+                  {allUsers.map((user: any) => (
+                    <option key={user.employeeId} value={user.employeeId}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
 
                 {errors.employee && (
                   <span className={styles.error}>
@@ -189,11 +230,10 @@ const ModalFormHr = () => {
             <input
               type="textarea"
               placeholder="Lorem ipsum dolor sit amet consectetur. Dui a nulla aenean fermentum ut ut rutrum molestie dictum. Faucibus nisl elementum enim potenti ut lorem tellus turpis odio. Mattis in adipiscing rutrum arcu eu diam praesent mattis mi. Ullamcorper turpis nec vitae eget donec vulputate imperdiet massa dui."
-              {...register("endDate", {
+              {...register("medical", {
                 required: true,
               })}
             />
-
             {errors.medical && (
               <span className={styles.error}>
                 {errors.medical.type === "required" && "This field is required"}

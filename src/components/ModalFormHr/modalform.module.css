@@ -135,21 +135,35 @@ body .modal {
     border-radius: 10px;
 }
 
-.form input[type="textarea"] {
+.medical__diagnostic input {
+    padding: 1rem;
+    flex: 1;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid lightgray;
+    width: 100%;
+    padding-bottom: 100px;
+    margin: 0 60px;
+}
+
+.form select {
     padding: 1rem;
     flex: 1;
     font-size: 16px;
     color: black;
     border-radius: 10px;
-    border: 2px solid lightgray;
-    height: 100px;
-    width: 100%;
-    margin: 0 60px;
+    border: 2px solid lightgray !important;
+    width: 420px !important;
+    height: 54px;
+    text-align: left !important;
+    background-color: white !important;
 }
 
 .medical__diagnostic {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 75px;
 }
 
 .medical__diagnostic__paragraph{
@@ -193,3 +207,4 @@ body .modal {
     text-align: center;
     margin-top: 1px;
 }
+
