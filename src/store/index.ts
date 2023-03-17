@@ -1,14 +1,15 @@
 import { create } from "zustand";
+import { AllIncapacities } from "../types";
 
 interface Store {
   isRegistering: boolean;
   error: string;
-  allIncapacities: any;
+  allIncapacities: AllIncapacities[];
   modal: boolean;
   animationModal: boolean;
   setIsRegistering: (isRegistering: boolean) => void;
   setError: (error: string) => void;
-  setAllIncapacities: (allIncapacities: any) => void;
+  setAllIncapacities: (allIncapacities: AllIncapacities[]) => void;
   setModal: (modal: boolean) => void;
   setAnimationModal: (modal: boolean) => void;
 }

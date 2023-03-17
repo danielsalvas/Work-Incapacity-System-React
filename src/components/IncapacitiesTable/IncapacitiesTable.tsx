@@ -1,32 +1,14 @@
-import { useEffect, useState } from "react";
-import { useStore } from "../../store";
-import { getFirestore, getDocs, collection } from "firebase/firestore";
-import firebaseApp from "../../firebase/credentials";
+import { useState } from "react";
 import DataTable from "react-data-table-component";
 import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
 import styles from "./incapacitiesTable.module.css";
+import useUsers from "../../hooks/useIncapacities";
 import { Props } from "../../types";
 
-const firestore = getFirestore(firebaseApp);
-
 const IncapacitiesTable = ({ role }: Props) => {
-  const { allIncapacities } = useStore((state) => ({
-    allIncapacities: state.allIncapacities,
-  }));
+  const { allIncapacities } = useUsers();
 
-  const { setAllIncapacities } = useStore();
   const [searchData, setSearchData] = useState(allIncapacities);
-
-  //Get all documents of work incapacities in the company and store in the state
-
-  useEffect(() => {
-    const queryCollection = collection(firestore, "workIncapacities");
-    getDocs(queryCollection).then((res) =>
-      setAllIncapacities(
-        res.docs.map((incapacity) => ({ ...incapacity.data() }))
-      )
-    );
-  }, []);
 
   //Search Filter
 
