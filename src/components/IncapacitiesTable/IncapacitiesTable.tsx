@@ -2,11 +2,11 @@ import { useState } from "react";
 import DataTable from "react-data-table-component";
 import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
 import styles from "./incapacitiesTable.module.css";
-import useUsers from "../../hooks/useIncapacities";
+import useIncapacities from "../../hooks/useIncapacities";
 import { Props } from "../../types";
 
 const IncapacitiesTable = ({ role }: Props) => {
-  const { allIncapacities } = useUsers();
+  const { allIncapacities } = useIncapacities();
 
   const [searchData, setSearchData] = useState(allIncapacities);
 

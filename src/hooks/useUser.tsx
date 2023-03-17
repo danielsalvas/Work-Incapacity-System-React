@@ -4,7 +4,7 @@ import firebaseApp from "../firebase/credentials";
 
 const firestore = getFirestore(firebaseApp);
 
-const useUsers = () => {
+const useUser = () => {
   const [infoUser, setInfoUser] = useState<any>();
   //Get the info User
 
@@ -22,4 +22,4 @@ const useUsers = () => {
   
 };
 
-export default useUsers;
+export default useUser;

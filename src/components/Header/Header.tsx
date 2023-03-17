@@ -5,7 +5,7 @@ import userImage from "../../assets/userImage.png";
 import styles from "./header.module.css";
 import { Props } from "../../types";
 import ModalForm from "../ModalFormHr/ModalFormHr";
-import useUsers from "../../hooks/useUsers";
+import useUser from "../../hooks/useUser";
 
 //Firebase
 
@@ -13,7 +13,7 @@ const auth = getAuth(firebaseApp);
 
 const Header = ({ uid }: Props) => {
   //Custom hook to get the infoUser with initial session
-  const { getUser, infoUser } = useUsers();
+  const { getUser, infoUser } = useUser();
 
   //Zustand and states
 

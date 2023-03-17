@@ -1,10 +1,12 @@
-import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useStore } from "../../store";
 import styles from "./modalform.module.css";
 import close from "../../assets/close.svg";
+import useUsers from "../../hooks/useUsers";
 
 const ModalFormHr = () => {
+  //Custom hook to obtain all the users in the database
+  const { allUsers } = useUsers();
   //Zustand and states
 
   const { animationModal } = useStore((state) => ({
@@ -24,6 +26,8 @@ const ModalFormHr = () => {
       setModal(false);
     }, 300);
   };
+
+  //Hide Modal Form function
 
   const hideModal = () => {
     setAnimationModal(false);
@@ -178,9 +182,10 @@ const ModalFormHr = () => {
           </div>
 
           {/* MEDICAL DIAGNOSTIC */}
-          <p className={styles.medical__diagnostic__paragraph}>Medical Diagnostic</p>
+          <p className={styles.medical__diagnostic__paragraph}>
+            Medical Diagnostic
+          </p>
           <div className={styles.medical__diagnostic}>
-            
             <input
               type="textarea"
               placeholder="Lorem ipsum dolor sit amet consectetur. Dui a nulla aenean fermentum ut ut rutrum molestie dictum. Faucibus nisl elementum enim potenti ut lorem tellus turpis odio. Mattis in adipiscing rutrum arcu eu diam praesent mattis mi. Ullamcorper turpis nec vitae eget donec vulputate imperdiet massa dui."

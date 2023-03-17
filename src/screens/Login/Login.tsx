@@ -56,7 +56,7 @@ const Login = () => {
 
         const docuRef = doc(firestore, `users/${infoUser.user.uid}`);
 
-        setDoc(docuRef, { name: name, email: email, role: role });
+        setDoc(docuRef, { name: name, email: email, role: role, employeeId: infoUser.user.uid });
       } catch (error) {
         setError("Account already exists with this email");
       }

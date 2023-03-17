@@ -22,8 +22,4 @@ export interface AllIncapacities {
   startDate:string;
 }
 
-export interface InfoUser {
-  email: string;
-  name: string;
-  role: string;
-}
+
