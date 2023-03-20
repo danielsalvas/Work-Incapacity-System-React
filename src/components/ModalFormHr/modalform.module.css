@@ -11,9 +11,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 800px;
+  height: 100vh;
   z-index: 30;
-  overflow-y: auto !important;
+  
 }
 .modal .close_modal {
   position: absolute;
@@ -191,9 +191,14 @@ body .modal {
 }
 
 @media screen and (max-width: 768px) {
+  .modal {
+
+    height: 100vh;
+    overflow-y: auto !important;
+  }
   .form {
     padding: 3rem 0 !important;
-    width: 95% !important;
+    width: 90% !important;
     margin: 0 auto;
   }
   .form legend {
@@ -206,6 +211,19 @@ body .modal {
     display: block;
     padding: 1rem 5rem;
   }
+
+  .form input[type="text"],
+.form input[type="date"],
+.form input[type="number"],
+.form input[type="submit"],
+.form select {
+
+  border-radius: 0px;
+  margin-left: 3px;
+  margin-right: 3px;
+
+}
+
 }
 
 @media screen and (max-width: 1220px) {
@@ -237,14 +255,13 @@ body .modal {
   }
   .form input[type="text"],
   .form input[type="date"],
-  .form input[type="number"] {
-    width: 90%;
+  .form input[type="number"]
+   {
+    width: 88%;
   }
   .form select {
-    width: 100% !important;
+    width: 98% !important;
   }
 
-  .modal {
-    overflow-y: auto !important;
-  }
+
 }

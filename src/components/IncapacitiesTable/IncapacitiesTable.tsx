@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
 import styles from "./incapacitiesTable.module.css";
@@ -7,9 +7,14 @@ import { Props } from "../../types";
 import { AllIncapacities } from "../../types";
 
 const IncapacitiesTable = ({ role }: Props) => {
-  const { allIncapacities } = useIncapacities();
+  const { allIncapacities, loadingData } = useIncapacities();
 
-  const [searchData, setSearchData] = useState(allIncapacities);
+  const [searchData, setSearchData] = useState<AllIncapacities[]>([]);
+
+  console.log(searchData);
+  useEffect(() => {
+    setSearchData(allIncapacities);
+  }, []);
 
   //Search Filter
 
@@ -20,7 +25,7 @@ const IncapacitiesTable = ({ role }: Props) => {
       return row.employee.toLowerCase().includes(searchValue);
     });
 
-    setSearchData(newSearchData)
+    setSearchData(newSearchData);
   }
 
   return (
@@ -35,13 +40,22 @@ const IncapacitiesTable = ({ role }: Props) => {
           />
         </div>
 
-        <div className={styles.filtro__fechas}>Filtro de fechas</div>
+        <div className={styles.filtro__fechas}>
+          <input type="date" />
+          <input type="date" />
+          <button>Filter</button>
+        </div>
       </div>
-      <DataTable
-        columns={role === "hrspecialist" ? columnsHr : columnsEmployee}
-        data={searchData}
-        pagination
-      ></DataTable>
+      {loadingData ? (
+        <p>Loading...</p>
+      ) : (
+        <DataTable
+          columns={role === "hrspecialist" ? columnsHr : columnsEmployee}
+          data={searchData}
+          pagination
+          responsive
+        ></DataTable>
+      )}
     </div>
   );
 };

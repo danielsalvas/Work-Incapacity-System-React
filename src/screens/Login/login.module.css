@@ -1,91 +1,124 @@
 a {
-    cursor: pointer;
-    color: #007AFF;
-    font-size: 16px;
+  cursor: pointer;
+  color: #007aff;
+  font-size: 16px;
 }
 
 .container__login__component {
-    width: 614px;
-    height: 674px;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    margin: 20px auto 0 auto;
+  width: 614px;
+  height: 674px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: 20px auto 0 auto;
 }
 
 .container__elements {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .container__form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container__form legend {
-    font-weight: bold;
-    font-size: 25px;
-    margin: 25px 0;
+  font-weight: bold;
+  font-size: 25px;
+  margin: 25px 0;
 }
 
 .container__form input {
-    width: 343px;
-    height: 40px;
-    font-size: 16px;
-    color: #000000;
-    margin-top: 20px;
+  width: 343px;
+  height: 40px;
+  font-size: 16px;
+  color: #000000;
+  margin-top: 20px;
 }
 
 .container__form select {
-    width: 343px;
-    height: 40px;
-    font-size: 16px;
-    color: #000000;
-
+  width: 343px;
+  height: 40px;
+  font-size: 16px;
+  color: #000000;
 }
 
 .ito__logo {
-    width: 218px;
-    height: 131px;
-    margin-top: 33px;
+  width: 218px;
+  height: 131px;
+  margin-top: 33px;
 }
 
 .forgot__password {
-    text-decoration: none;
-    margin: 20px auto 10px 0;
+  text-decoration: none;
+  margin: 20px auto 10px 0;
 }
 
 .container__input__error {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .submit__button {
-    cursor: pointer;
-    background-color: #0779BE;
-    color: #ffffff !important;
-    border: none;
+  cursor: pointer;
+  background-color: #0779be;
+  color: #ffffff !important;
+  border: none;
 }
 
 .input__error {
-    font-size: 10px;
-    color: red;
+  font-size: 10px;
+  color: red;
 }
 
 .form__toggle {
-    display: flex;
-    align-items: center;
-    margin-bottom: 33px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 33px;
 }
 
 .account__error {
-    color: red;
-    font-size: 12px;
+  color: red;
+  font-size: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .container__login__component {
+    width: 614px;
+    height: 674px;
+    background-color: #ffffff;
+    width: 100vw;
+    margin: 0px auto;
+  }
+
+  .ito__logo {
+    width: 170px;
+    height: 102px;
+  }
+
+  .container__form legend {
+    font-size: 16px;
+  }
+
+  .container__form input {
+    font-size: 14px;
+    color: #000000;
+    width: 340px;
+  }
+
+  a {
+    font-size: 14px;
+  }
+
+  .container__form select {
+    width: 340px;
+    font-size: 14px;
+  }
 }

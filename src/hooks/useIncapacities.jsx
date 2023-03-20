@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "../store";
 import { getFirestore, getDocs, collection } from "firebase/firestore";
 import firebaseApp from "../firebase/credentials";
@@ -6,6 +6,8 @@ import firebaseApp from "../firebase/credentials";
 const firestore = getFirestore(firebaseApp);
 
 const useIncapacities = () => {
+
+  const [loadingData, setLoadingData] = useState(true)
   const { allIncapacities } = useStore((state) => ({
     allIncapacities: state.allIncapacities,
   }));
@@ -20,9 +22,14 @@ const useIncapacities = () => {
         res.docs.map((incapacity) => ({ ...incapacity.data() }))
       )
     );
+
+    setTimeout(() => {
+      setLoadingData(false)
+    }, 1500);
   }, []);
   return {
     allIncapacities,
+    loadingData
   };
 };
 

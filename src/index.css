@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-html {
-  background-color: #F5F5F5;
-}
 
 body {
   margin: 0;
@@ -39,9 +36,30 @@ body {
 }
 
 .cBxjhB {
-  position: absolute;
-  right: 50px;
+  position: relative;
+  left: 1100px;
 }
+
+@media screen and (max-width: 600px) {
+ 
+}
+@media screen and (max-width: 768px) {
+  html {
+    background-color: #FFFFFF;
+  }
+}
+@media screen and (max-width: 1290px) {
+  .cBxjhB {
+    left: 850px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .cBxjhB {
+    left: 0px;
+  }
+}
+
 
 
 

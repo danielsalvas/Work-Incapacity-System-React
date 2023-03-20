@@ -1,5 +1,7 @@
 import Header from "../Header/Header";
 import IncapacitiesTable from "../IncapacitiesTable/IncapacitiesTable";
+import { useStore } from "../../store";
+import styles from "./hrspecialistview.module.css";
 
 type Props = {
   uid: string;
@@ -7,8 +9,11 @@ type Props = {
 };
 
 const HrSpecialistView = ({ uid, role }: Props) => {
+  const { modal } = useStore((state) => ({
+    modal: state.modal,
+  }));
   return (
-    <div>
+    <div className={`${modal ? styles["fixed"] : ""}`}>
       <Header uid={uid} />
       <IncapacitiesTable uid={uid} role={role} />
     </div>
