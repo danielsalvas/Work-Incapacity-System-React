@@ -4,6 +4,8 @@ import Login from "./screens/Login/Login";
 import firebaseApp from "./firebase/credentials";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 const auth = getAuth(firebaseApp);
@@ -43,7 +45,22 @@ function App() {
     }
   });
 
-  return <div className="app">{user ? <Home role={user.role} uid={user.uid} /> : <Login />}</div>;
+  return <div>
+    <div className="app"> {user ? <Home role={user.role} uid={user.uid} /> : <Login />}</div>
+    <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <ToastContainer />
+  </div>;
 }
 
 export default App;

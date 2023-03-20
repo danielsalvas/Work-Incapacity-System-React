@@ -5,6 +5,7 @@ import styles from "./incapacitiesTable.module.css";
 import useIncapacities from "../../hooks/useIncapacities";
 import { Props } from "../../types";
 import { AllIncapacities } from "../../types";
+import Spinner from "../Spinner/Spinner";
 
 const IncapacitiesTable = ({ role }: Props) => {
   const { allIncapacities, loadingData } = useIncapacities();
@@ -55,7 +56,9 @@ const IncapacitiesTable = ({ role }: Props) => {
         </div>
       </div>
       {loadingData ? (
-        <p>Loading...</p>
+        <div className={styles.container__spinner}>
+          <Spinner />
+        </div>
       ) : (
         <DataTable
           columns={role === "hrspecialist" ? columnsHr : columnsEmployee}

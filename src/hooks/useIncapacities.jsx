@@ -25,7 +25,7 @@ const useIncapacities = () => {
 
     setTimeout(() => {
       setLoadingData(false)
-    }, 1500);
+    }, 2000);
   }, []);
   return {
     allIncapacities,

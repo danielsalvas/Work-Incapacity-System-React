@@ -8,6 +8,8 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import { AllIncapacities } from "../../types";
 import { UserData } from "../../types";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -19,7 +21,7 @@ const ModalFormHr = () => {
 
   const { animationModal, allIncapacities } = useStore((state) => ({
     animationModal: state.animationModal,
-    allIncapacities: state.allIncapacities
+    allIncapacities: state.allIncapacities,
   }));
   const { setModal, setAnimationModal, setAllIncapacities } = useStore();
 
@@ -59,6 +61,16 @@ const ModalFormHr = () => {
     };
 
     addDoc(collection(firestore, "workIncapacities"), newApplication);
+    toast.success("Application sent succesfully", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   //Hide Modal Form function

@@ -65,6 +65,11 @@
   background-color: darkgray;
 }
 
+.container__spinner {
+  display: flex;
+  justify-content: center;
+}
+
 @media screen and (max-width: 1286px) {
   .input__search {
     width: 500px;
