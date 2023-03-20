@@ -1,27 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* DATA TABLE STYLES */
 
-/* COMPLETE TABLE AND ROWS */
+
+
+/* FIRST ROW*/
 
 .jWpMhA {
-  background-color: #F5F5F5 !important;
+  background-color: #f5f5f5 !important;
+  font-family: "Roboto", sans-serif !important;
+  font-size: 15.16px !important;
 }
 
+.sc-hIqOWS {
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14.44px !important;
+}
+/* COMPLETE TABLE AND ROWS */
 .hXLGuA {
   width: 90% !important;
   margin: 0 auto;
-  
 }
-
 
 /* PAGINATION */
 
@@ -41,11 +47,10 @@ body {
 }
 
 @media screen and (max-width: 600px) {
- 
 }
 @media screen and (max-width: 768px) {
   html {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 }
 @media screen and (max-width: 1290px) {
@@ -59,8 +64,3 @@ body {
     left: 0px;
   }
 }
-
-
-
-
-
