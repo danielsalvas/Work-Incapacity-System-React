@@ -8,7 +8,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { FormData } from "../../types";
+import { UserData } from "../../types";
 import styles from "./login.module.css";
 import itoLogo from "../../assets/ito.png";
 
@@ -33,11 +33,11 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<UserData>();
 
   //Functions
 
-  const onSubmit: SubmitHandler<FormData> = async (data: any) => {
+  const onSubmit: SubmitHandler<UserData> = async (data) => {
     const name = data.name;
     const email = data.email;
     const password = data.password;

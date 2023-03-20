@@ -1,13 +1,13 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect } from "react";
 import { useStore } from "../../store";
 import styles from "./modalform.module.css";
 import close from "../../assets/close.svg";
 import useUsers from "../../hooks/useUsers";
 import { formattedDate } from "../../helpers/dataTableColumns";
-import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
-import useIncapacities from "../../hooks/useIncapacities";
+import { AllIncapacities } from "../../types";
+import { UserData } from "../../types";
 
 const firestore = getFirestore(firebaseApp);
 
@@ -15,46 +15,40 @@ const ModalFormHr = () => {
   //Custom hook to obtain all the users in the database
   const { allUsers } = useUsers();
 
-  useEffect(() => {
-    const queryCollection = collection(firestore, "workIncapacities");
-    getDocs(queryCollection).then((res) =>
-      console.log(res.docs.map((incapacity) => ({ ...incapacity.data() })))
-    );
-  }, []);
-
   //Zustand and states
 
-  const { animationModal } = useStore((state) => ({
+  const { animationModal, allIncapacities } = useStore((state) => ({
     animationModal: state.animationModal,
+    allIncapacities: state.allIncapacities
   }));
-  const { setModal, setAnimationModal } = useStore();
+  const { setModal, setAnimationModal, setAllIncapacities } = useStore();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<AllIncapacities>();
 
   //Create new incapacity application
 
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<AllIncapacities> = async (data) => {
     //Close Modal
     setAnimationModal(false);
     setTimeout(() => {
       setModal(false);
     }, 300);
 
-    const employeeId = data.employee
+    const employeeId = data.employee;
 
     const findEmployee = allUsers.find(
-      (user: any) => user.employeeId === employeeId
+      (user: UserData) => user.employeeId === employeeId
     ); //Getting the employee name
 
     //Data with employee identifier
 
     const newApplication = {
       employeeId: employeeId,
-      employee: findEmployee.name,
+      employee: findEmployee?.name,
       medicalUnit: data.medicalUnit,
       doctor: data.doctor,
       coverageDays: data.coverageDays,
@@ -102,7 +96,7 @@ const ModalFormHr = () => {
                 <p>Choose Employee</p>
 
                 <select {...register("employee")}>
-                  {allUsers.map((user: any) => (
+                  {allUsers.map((user: UserData) => (
                     <option key={user.employeeId} value={user.employeeId}>
                       {user.name}
                     </option>

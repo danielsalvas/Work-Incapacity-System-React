@@ -4,6 +4,7 @@ import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
 import styles from "./incapacitiesTable.module.css";
 import useIncapacities from "../../hooks/useIncapacities";
 import { Props } from "../../types";
+import { AllIncapacities } from "../../types";
 
 const IncapacitiesTable = ({ role }: Props) => {
   const { allIncapacities } = useIncapacities();
@@ -12,14 +13,14 @@ const IncapacitiesTable = ({ role }: Props) => {
 
   //Search Filter
 
-  function handleFilter(e: any) {
+  function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
     const searchValue = e.target.value.toLowerCase();
 
-    const newSearchData = allIncapacities.filter((row: any) => {
+    const newSearchData = allIncapacities.filter((row: AllIncapacities) => {
       return row.employee.toLowerCase().includes(searchValue);
     });
 
-    setSearchData(searchValue.length > 0 ? newSearchData : allIncapacities);
+    setSearchData(newSearchData)
   }
 
   return (

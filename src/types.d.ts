@@ -1,8 +1,9 @@
-export interface FormData {
+export interface UserData {
   name: string;
   email: string;
   password: string;
   role: string;
+  employeeId: string;
 }
 
 export type Props = {
