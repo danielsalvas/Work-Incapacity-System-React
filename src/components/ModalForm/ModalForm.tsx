@@ -7,26 +7,26 @@ import useUsers from "../../hooks/useUsers";
 import { formattedDate } from "../../helpers/dataTableColumns";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
-import { AllIncapacities } from "../../types";
-import { UserData } from "../../types";
+import { AllIncapacities, UserData, Props } from "../../types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const firestore = getFirestore(firebaseApp);
 
-const ModalFormHr = () => {
+const ModalFormHr = ({ uid, role }: Props) => {
   //Custom hook to obtain all the users in the database
   const { allUsers } = useUsers();
 
   //Zustand and states
 
   const [dateError, setDateError] = useState("");
+  const [newApplication, setNewApplication] = useState()
 
   const { animationModal } = useStore((state) => ({
     animationModal: state.animationModal,
     allIncapacities: state.allIncapacities,
   }));
-  const { setModal, setAnimationModal } = useStore();
+  const { setModal, setAnimationModal, formatDate } = useStore();
 
   const {
     register,
@@ -62,8 +62,8 @@ const ModalFormHr = () => {
         medicalUnit: data.medicalUnit,
         doctor: data.doctor,
         coverageDays: data.coverageDays,
-        startDate: data.startDate,
-        endDate: data.endDate,
+        startDate: formatDate(data.startDate),
+        endDate: formatDate(data.endDate),
         medical: data.medical,
         applicationDate: formattedDate,
       };
@@ -112,27 +112,29 @@ const ModalFormHr = () => {
           <legend>Sick Leave Application</legend>
 
           <div className={styles.container__form}>
-            <div>
+            <div className={styles.container__form__columns}>
               {/* EMPLOYEE */}
 
-              <div className={styles.field}>
-                <p>Choose Employee</p>
+              {role === "hrspecialist" && (
+                <div className={styles.field}>
+                  <p>Choose Employee</p>
 
-                <select {...register("employee")}>
-                  {allUsers.map((user: UserData) => (
-                    <option key={user.employeeId} value={user.employeeId}>
-                      {user.name}
-                    </option>
-                  ))}
-                </select>
+                  <select {...register("employee")}>
+                    {allUsers.map((user: UserData) => (
+                      <option key={user.employeeId} value={user.employeeId}>
+                        {user.name}
+                      </option>
+                    ))}
+                  </select>
 
-                {errors.employee && (
-                  <span className={styles.error}>
-                    {errors.employee.type === "required" &&
-                      "This field is required"}
-                  </span>
-                )}
-              </div>
+                  {errors.employee && (
+                    <span className={styles.error}>
+                      {errors.employee.type === "required" &&
+                        "This field is required"}
+                    </span>
+                  )}
+                </div>
+              )}
 
               {/* MEDICAL UNIT */}
 
@@ -173,9 +175,7 @@ const ModalFormHr = () => {
                   </span>
                 )}
               </div>
-            </div>
 
-            <div>
               {/* DAYS OF COVERAGE */}
 
               <div className={styles.field}>
@@ -235,7 +235,9 @@ const ModalFormHr = () => {
                       "This field is required"}
                   </span>
                 )}
-                {dateError.length > 0 && <span className={styles.error}>{dateError}</span>}
+                {dateError.length > 0 && (
+                  <span className={styles.error}>{dateError}</span>
+                )}
               </div>
             </div>
           </div>

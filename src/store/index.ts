@@ -14,6 +14,7 @@ interface Store {
   setAllUsers: (AllUsers: UserData[]) => void;
   setModal: (modal: boolean) => void;
   setAnimationModal: (modal: boolean) => void;
+  formatDate: (date: string) => string
 }
 
 export const useStore = create<Store>((set, get) => ({
@@ -31,4 +32,13 @@ export const useStore = create<Store>((set, get) => ({
   setModal: (modal) => set({ modal: modal }),
   setAnimationModal: (animationModal) =>
     set({ animationModal: animationModal }),
+  formatDate: (date: string) => {
+    let newDate = new Date(date);
+
+    const day = newDate.getDate().toString().padStart(2, "0");
+    const month = (newDate.getMonth() + 1).toString().padStart(2, "0");
+    const year = newDate.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  },
 }));

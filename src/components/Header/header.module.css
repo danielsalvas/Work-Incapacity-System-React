@@ -67,7 +67,7 @@
     justify-content: center;
     width: 100%;
     position: fixed;
-    bottom: 30px;
+    bottom: 60px;
     z-index: 30;
   }
   .button__new__aplication__sticky button {

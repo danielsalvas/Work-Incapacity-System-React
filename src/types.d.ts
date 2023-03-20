@@ -16,7 +16,7 @@ export interface AllIncapacities {
   coverageDays: number;
   doctor:string;
   employee:string;
-  employeeeId:string;
+  employeeId:string;
   endDate:string;
   medical:string;
   medicalUnit:string;

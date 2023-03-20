@@ -9,8 +9,6 @@ body {
 
 /* DATA TABLE STYLES */
 
-
-
 /* FIRST ROW*/
 
 .jWpMhA {
@@ -20,13 +18,21 @@ body {
 }
 
 .sc-hIqOWS {
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
   font-size: 14.44px !important;
 }
 /* COMPLETE TABLE AND ROWS */
 .hXLGuA {
   width: 90% !important;
   margin: 0 auto;
+}
+
+.dpxigv {
+  justify-content: center;
+}
+
+.jwTXsE {
+  justify-content: center !important;
 }
 
 /* PAGINATION */
@@ -38,7 +44,8 @@ body {
 }
 
 .ihCgAW {
-  display: none !important;
+  position: relative;
+  left: 800px;
 }
 
 .cBxjhB {
@@ -46,16 +53,12 @@ body {
   left: 1100px;
 }
 
-@media screen and (max-width: 600px) {
-}
-@media screen and (max-width: 768px) {
-  html {
-    background-color: #ffffff;
-  }
-}
 @media screen and (max-width: 1290px) {
   .cBxjhB {
     left: 850px;
+  }
+  .ihCgAW {
+    left: 550px;
   }
 }
 
@@ -63,4 +66,19 @@ body {
   .cBxjhB {
     left: 0px;
   }
+  .ihCgAW {
+    left: 0px;
+  }
+}
+@media screen and (max-width: 768px) {
+  html {
+    background-color: #ffffff;
+  }
+}
+
+.delete__application{
+  border: none;
+  background-color: transparent;
+  color: red;
+  cursor: pointer;
 }

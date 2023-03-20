@@ -4,14 +4,14 @@ import { getAuth, signOut } from "firebase/auth";
 import userImage from "../../assets/userImage.png";
 import styles from "./header.module.css";
 import { Props } from "../../types";
-import ModalForm from "../ModalFormHr/ModalFormHr";
+import ModalForm from "../ModalForm/ModalForm";
 import useUser from "../../hooks/useUser";
 
 //Firebase
 
 const auth = getAuth(firebaseApp);
 
-const Header = ({ uid }: Props) => {
+const Header = ({ uid, role }: Props) => {
   //Custom hook to get the infoUser with initial session
   const { getUser, infoUser } = useUser();
 
@@ -59,7 +59,7 @@ const Header = ({ uid }: Props) => {
           <button onClick={handleNewIncapacity}>New Aplication</button>
         </div>
 
-        {modal && <ModalForm />}
+        {modal && <ModalForm uid={uid} role={role} />}
       </div>
 
       {!modal && (

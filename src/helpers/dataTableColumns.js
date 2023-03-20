@@ -1,3 +1,4 @@
+
 export const columnsHr = [
     {
       name: "Employee",
@@ -31,13 +32,14 @@ export const columnsHr = [
       name: "End Date",
       selector: (row) => row.endDate,
     },
+    {
+      cell: (row) => (
+        <button className="delete__application"><i className="fa-sharp fa-regular fa-trash-can"></i></button>
+      ),
+    },
   ];
 
   export const columnsEmployee = [
-    {
-      name: "Employee",
-      selector: (row) => row.employee,
-    },
     {
       name: "Medical Diagnostic",
       selector: (row) => row.medical,
@@ -65,6 +67,11 @@ export const columnsHr = [
     {
       name: "End Date",
       selector: (row) => row.endDate,
+    },
+    {
+      cell: (row) => (
+        <button className="delete__application"><i className="fa-sharp fa-regular fa-trash-can"></i></button>
+      ),
     },
   ];
 

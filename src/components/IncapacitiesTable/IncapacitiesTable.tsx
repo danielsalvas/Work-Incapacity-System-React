@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DataTable from "react-data-table-component";
 import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
 import styles from "./incapacitiesTable.module.css";
@@ -7,26 +7,44 @@ import { Props } from "../../types";
 import { AllIncapacities } from "../../types";
 import Spinner from "../Spinner/Spinner";
 
-const IncapacitiesTable = ({ role }: Props) => {
+const IncapacitiesTable = ({ role, uid }: Props) => {
+  //Zustand and states
+
   const { allIncapacities, loadingData } = useIncapacities();
+  const [searchData, setSearchData] =
+    useState<AllIncapacities[]>(allIncapacities);
 
-  const [searchData, setSearchData] = useState<AllIncapacities[]>([]);
+  //Looking for employee applications with the session started
 
-  console.log(searchData);
-  useEffect(() => {
-    setSearchData(allIncapacities);
-  }, []);
+  const employeeApplications = allIncapacities.filter(
+    (row: AllIncapacities) => {
+      return row.employeeId?.includes(uid);
+    }
+  );
+
+  const [searchApplications, setSearchApplications] =
+    useState<AllIncapacities[]>(employeeApplications);
 
   //Search Filter
 
   function handleFilter(e: React.ChangeEvent<HTMLInputElement>) {
-    const searchValue = e.target.value.toLowerCase();
+    if (role === "hrspecialist") {
+      const searchValue = e.target.value.toLowerCase();
 
-    const newSearchData = allIncapacities.filter((row: AllIncapacities) => {
-      return row.employee.toLowerCase().includes(searchValue);
-    });
+      const newSearchData = allIncapacities.filter((row: AllIncapacities) => {
+        return row.employee?.toLowerCase().includes(searchValue);
+      });
+      setSearchData(newSearchData);
+    } else {
+      const searchValue = e.target.value.toLowerCase();
 
-    setSearchData(newSearchData);
+      const newSearchData = employeeApplications.filter(
+        (row: AllIncapacities) => {
+          return row.medical?.toLowerCase().includes(searchValue);
+        }
+      );
+      setSearchApplications(newSearchData);
+    }
   }
 
   return (
@@ -36,7 +54,11 @@ const IncapacitiesTable = ({ role }: Props) => {
           <input
             className={styles.input__search}
             type="text"
-            placeholder=" Search"
+            placeholder={
+              role === "hrspecialist"
+                ? "Search by name"
+                : "Search by Medical Diagnostic"
+            }
             onChange={handleFilter}
           />
         </div>
@@ -62,7 +84,7 @@ const IncapacitiesTable = ({ role }: Props) => {
       ) : (
         <DataTable
           columns={role === "hrspecialist" ? columnsHr : columnsEmployee}
-          data={searchData}
+          data={role === "hrspecialist" ? searchData : searchApplications}
           pagination
           responsive
         ></DataTable>
