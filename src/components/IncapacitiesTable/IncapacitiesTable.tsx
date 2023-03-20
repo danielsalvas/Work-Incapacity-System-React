@@ -31,19 +31,27 @@ const IncapacitiesTable = ({ role }: Props) => {
   return (
     <div>
       <div className={styles.container__filters}>
-        <div>
+        <div className={styles.container__input__search}>
           <input
-            className={styles.search__input}
+            className={styles.input__search}
             type="text"
             placeholder=" Search"
             onChange={handleFilter}
           />
         </div>
 
-        <div className={styles.filtro__fechas}>
-          <input type="date" />
-          <input type="date" />
-          <button>Filter</button>
+        <div className={styles.date__filters}>
+          <div className={styles.container__input__label}>
+            <label htmlFor="">From</label>
+            <input type="date" />
+          </div>
+          <div className={styles.container__input__label}>
+            <label htmlFor="">To</label>
+            <input type="date" />
+          </div>
+          <div className={styles.button__filter}>
+            <button>Filter</button>
+          </div>
         </div>
       </div>
       {loadingData ? (

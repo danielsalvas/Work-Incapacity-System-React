@@ -13,7 +13,6 @@
   bottom: 0;
   height: 100vh;
   z-index: 30;
-  
 }
 .modal .close_modal {
   position: absolute;
@@ -192,7 +191,6 @@ body .modal {
 
 @media screen and (max-width: 768px) {
   .modal {
-
     height: 100vh;
     overflow-y: auto !important;
   }
@@ -213,17 +211,14 @@ body .modal {
   }
 
   .form input[type="text"],
-.form input[type="date"],
-.form input[type="number"],
-.form input[type="submit"],
-.form select {
-
-  border-radius: 0px;
-  margin-left: 3px;
-  margin-right: 3px;
-
-}
-
+  .form input[type="date"],
+  .form input[type="number"],
+  .form input[type="submit"],
+  .form select {
+    border-radius: 0px;
+    margin-left: 3px;
+    margin-right: 3px;
+  }
 }
 
 @media screen and (max-width: 1220px) {
@@ -255,13 +250,10 @@ body .modal {
   }
   .form input[type="text"],
   .form input[type="date"],
-  .form input[type="number"]
-   {
+  .form input[type="number"] {
     width: 88%;
   }
   .form select {
     width: 98% !important;
   }
-
-
 }

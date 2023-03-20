@@ -1,19 +1,109 @@
 @import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 
-
 .container__filters {
-    display: flex;
-    justify-content: space-between;
-}
-.search__input {
-    width: 763px;
-    height: 47px;
-    border-radius: 10px;
-    border: 2px solid lightgray;
-    margin-left: 75px ;
-    margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 90%;
+  margin-bottom: 33.5px;
 }
 
-.filtro__fechas {
-    margin-right: 80px;
+.container__input__label {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
+.container__input__search {
+  display: flex;
+  align-items: flex-end;
+}
+
+.container__input__label input {
+  width: 161px;
+  height: 47px;
+  border-radius: 10px;
+  border: 2px solid lightgray;
+}
+
+.container__input__label label {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.date__filters {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.input__search {
+  width: 763px;
+  height: 47px;
+  border-radius: 10px;
+  border: 2px solid lightgray;
+}
+
+.button__filter {
+  display: flex;
+  align-items: flex-end;
+}
+
+.button__filter button {
+  width: 133px;
+  height: 46px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 300ms ease;
+}
+
+.button__filter button:hover {
+  background-color: darkgray;
+}
+
+@media screen and (max-width: 1286px) {
+  .input__search {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .input__search {
+    width: 300px;
+  }
+
+  .container__input__label input {
+    width: 161px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .input__search {
+    width: 500px;
+  }
+  .container__filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .date__filters {
+    margin-top: 5px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  
+  .date__filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .input__search {
+    width: 300px;
+  }
+}
+
