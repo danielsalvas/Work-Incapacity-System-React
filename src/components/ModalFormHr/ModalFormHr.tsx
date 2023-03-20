@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useStore } from "../../store";
 import styles from "./modalform.module.css";
@@ -8,7 +9,7 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import { AllIncapacities } from "../../types";
 import { UserData } from "../../types";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const firestore = getFirestore(firebaseApp);
@@ -19,11 +20,13 @@ const ModalFormHr = () => {
 
   //Zustand and states
 
-  const { animationModal, allIncapacities } = useStore((state) => ({
+  const [dateError, setDateError] = useState("");
+
+  const { animationModal } = useStore((state) => ({
     animationModal: state.animationModal,
     allIncapacities: state.allIncapacities,
   }));
-  const { setModal, setAnimationModal, setAllIncapacities } = useStore();
+  const { setModal, setAnimationModal } = useStore();
 
   const {
     register,
@@ -34,43 +37,51 @@ const ModalFormHr = () => {
   //Create new incapacity application
 
   const onSubmit: SubmitHandler<AllIncapacities> = async (data) => {
-    //Close Modal
-    setAnimationModal(false);
-    setTimeout(() => {
-      setModal(false);
-    }, 300);
+    //If endDate is older than startDate, send the FORM INFORMATION, otherwise show an ERROR
 
-    const employeeId = data.employee;
+    if (Date.parse(data.endDate) > Date.parse(data.startDate)) {
+      //Close Modal
+      setAnimationModal(false);
+      setTimeout(() => {
+        setModal(false);
+      }, 300);
 
-    const findEmployee = allUsers.find(
-      (user: UserData) => user.employeeId === employeeId
-    ); //Getting the employee name
+      //Getting the employee name
 
-    //Data with employee identifier
+      const employeeId = data.employee;
 
-    const newApplication = {
-      employeeId: employeeId,
-      employee: findEmployee?.name,
-      medicalUnit: data.medicalUnit,
-      doctor: data.doctor,
-      coverageDays: data.coverageDays,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      medical: data.medical,
-      applicationDate: formattedDate,
-    };
+      const findEmployee = allUsers.find(
+        (user: UserData) => user.employeeId === employeeId
+      );
 
-    addDoc(collection(firestore, "workIncapacities"), newApplication);
-    toast.success("Application sent succesfully", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+      //Data with employee identifier
+
+      const newApplication = {
+        employeeId: employeeId,
+        employee: findEmployee?.name,
+        medicalUnit: data.medicalUnit,
+        doctor: data.doctor,
+        coverageDays: data.coverageDays,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        medical: data.medical,
+        applicationDate: formattedDate,
+      };
+
+      addDoc(collection(firestore, "workIncapacities"), newApplication);
+      toast.success("Application sent succesfully", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      setDateError("startDate is older than endDate");
+    }
   };
 
   //Hide Modal Form function
@@ -224,6 +235,7 @@ const ModalFormHr = () => {
                       "This field is required"}
                   </span>
                 )}
+                {dateError.length > 0 && <span className={styles.error}>{dateError}</span>}
               </div>
             </div>
           </div>
