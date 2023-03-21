@@ -21,7 +21,7 @@ interface Store {
   formatDate: (date: string) => string;
 }
 
-export const useStore = create<Store>((set, get) => ({
+export const useStore = create<Store>((set) => ({
   isRegistering: false,
   error: "",
   allIncapacities: [],

@@ -134,7 +134,13 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
 
   //If role is hrspecialist add new column to the data table
 
-  let columnsHr: any;
+  type Column = {
+    name?: string;
+    selector?: (row: AllIncapacities) => string | number;
+    cell?: (row: AllIncapacities) => JSX.Element;
+  };
+
+  let columnsHr: Column[] = [];
 
   if (role === "hrspecialist") {
     columnsHr = [

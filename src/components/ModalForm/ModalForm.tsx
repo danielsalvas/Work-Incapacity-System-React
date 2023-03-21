@@ -107,6 +107,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
 
       if (role === "hrspecialist") {
         const newData: any = [...searchData, newApplication];
+        
         setSearchData(newData);
       } else {
         const newData: AllIncapacities[] = [
