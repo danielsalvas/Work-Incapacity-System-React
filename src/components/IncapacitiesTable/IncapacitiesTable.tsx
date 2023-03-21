@@ -1,12 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useStore } from "../../store";
 import DataTable from "react-data-table-component";
-import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
+import { columnsEmployee } from "../../helpers/currentlyDate";
 import styles from "./incapacitiesTable.module.css";
 import useIncapacities from "../../hooks/useIncapacities";
 import { Props } from "../../types";
 import { AllIncapacities } from "../../types";
 import Spinner from "../Spinner/Spinner";
+import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import firebaseApp from "../../firebase/credentials";
+
+const firestore = getFirestore(firebaseApp);
 
 const IncapacitiesTable = ({ role, uid }: Props) => {
   //Zustand and states
@@ -46,6 +50,64 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
       setSearchApplications(newSearchData);
     }
   }
+
+  //Delete an application in screen and database in firebase
+
+  function handleDelete(applicationId: string) {
+    const newData = searchData.filter(
+      (application: AllIncapacities) =>
+        application.applicationId !== applicationId
+    );
+    deleteDoc(doc(firestore, "workIncapacities", applicationId));
+    setSearchData(newData);
+  }
+
+  //Data table component information
+
+  const columnsHr = [
+    {
+      name: "Employee",
+      selector: (row: AllIncapacities) => row.employee,
+    },
+    {
+      name: "Medical Diagnostic",
+      selector: (row: AllIncapacities) => row.medical,
+    },
+    {
+      name: "Application Date",
+      selector: (row: AllIncapacities) => row.applicationDate,
+    },
+    {
+      name: "Medical Unit",
+      selector: (row: AllIncapacities) => row.medicalUnit,
+    },
+    {
+      name: "Doctor",
+      selector: (row: AllIncapacities) => row.doctor,
+    },
+    {
+      name: "Days of coverage",
+      selector: (row: AllIncapacities) => row.coverageDays,
+    },
+    {
+      name: "Start Date",
+      selector: (row: AllIncapacities) => row.startDate,
+    },
+    {
+      name: "End Date",
+      selector: (row: AllIncapacities) => row.endDate,
+    },
+    {
+      cell: (row: AllIncapacities) => (
+        <button
+          onClick={() => handleDelete(row.applicationId)}
+          className="delete__application"
+        >
+          <i className="fa-sharp fa-regular fa-trash-can"></i>
+        </button>
+      ),
+    },
+  ];
 
   return (
     <div>

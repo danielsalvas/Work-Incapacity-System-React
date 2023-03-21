@@ -4,18 +4,20 @@ import { useStore } from "../../store";
 import styles from "./modalform.module.css";
 import close from "../../assets/close.svg";
 import useUsers from "../../hooks/useUsers";
-import { formattedDate } from "../../helpers/dataTableColumns";
+import { currentlyDate } from "../../helpers/currentlyDate";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import { AllIncapacities, UserData, Props } from "../../types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useIncapacities from "../../hooks/useIncapacities";
 
 const firestore = getFirestore(firebaseApp);
 
 const ModalFormHr = ({ uid, role }: Props) => {
-  //Custom hook to obtain all the users in the database
+  //Custom hooks
   const { allUsers } = useUsers();
+  const { searchData } = useIncapacities()
 
   //Zustand and states
 
@@ -26,7 +28,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
     animationModal: state.animationModal,
     allIncapacities: state.allIncapacities,
   }));
-  const { setModal, setAnimationModal, formatDate } = useStore();
+  const { setModal, setAnimationModal, formatDate, setSearchData } = useStore();
 
   const {
     register,
@@ -58,7 +60,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
         (user: UserData) => user.employeeId === id
       );
 
-      //Data with employee identifier
+      //Data with employee and application identifier
 
       const newApplication = {
         employeeId: id,
@@ -69,8 +71,17 @@ const ModalFormHr = ({ uid, role }: Props) => {
         startDate: formatDate(data.startDate),
         endDate: formatDate(data.endDate),
         medical: data.medical,
-        applicationDate: formattedDate,
+        applicationDate: currentlyDate,
       };
+
+      //Updating state in screen and database in firebase
+
+      const newData: any = [
+        ...searchData,
+        newApplication,
+      ];
+
+      setSearchData(newData)
 
       addDoc(collection(firestore, "workIncapacities"), newApplication);
       toast.success("Application sent succesfully", {

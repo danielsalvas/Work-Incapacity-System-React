@@ -12,6 +12,7 @@ export type Props = {
 };
 
 export interface AllIncapacities {
+  applicationId: string
   applicationDate: string;
   coverageDays: number;
   doctor:string;
