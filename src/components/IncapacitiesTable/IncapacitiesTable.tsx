@@ -3,7 +3,7 @@ import { useStore } from "../../store";
 import DataTable from "react-data-table-component";
 import styles from "./incapacitiesTable.module.css";
 import useIncapacities from "../../hooks/useIncapacities";
-import { Props, AllIncapacities } from "../../types";
+import { Props, AllIncapacities, Column } from "../../types";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import Swal from "sweetalert2";
@@ -133,12 +133,6 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
   ];
 
   //If role is hrspecialist add new column to the data table
-
-  type Column = {
-    name?: string;
-    selector?: (row: AllIncapacities) => string | number;
-    cell?: (row: AllIncapacities) => JSX.Element;
-  };
 
   let columnsHr: Column[] = [];
 

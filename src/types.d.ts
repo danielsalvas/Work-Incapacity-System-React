@@ -24,6 +24,12 @@ export interface AllIncapacities {
   startDate:string;
 }
 
+export type Column = {
+  name?: string;
+  selector?: (row: AllIncapacities) => string | number;
+  cell?: (row: AllIncapacities) => JSX.Element;
+};
+
 
 
 
