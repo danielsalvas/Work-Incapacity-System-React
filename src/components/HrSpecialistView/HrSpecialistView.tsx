@@ -12,9 +12,10 @@ const HrSpecialistView = ({ uid, role }: Props) => {
   const { modal } = useStore((state) => ({
     modal: state.modal,
   }));
+  
   return (
     <div className={`${modal ? styles["fixed"] : ""}`}>
-      <Header uid={uid} />
+      <Header uid={uid} role={role} />
       <IncapacitiesTable uid={uid} role={role} />
     </div>
   );

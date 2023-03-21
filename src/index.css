@@ -74,6 +74,12 @@ body {
   html {
     background-color: #ffffff;
   }
+
+  .cOhUY {
+    justify-content: center !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
 }
 
 .delete__application{

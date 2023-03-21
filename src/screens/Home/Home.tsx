@@ -4,6 +4,7 @@ import styles from './home.module.css'
 import { Props } from "../../types";
 
 const Home = ({ role, uid }: Props) => {
+  
   return (
     <div className={styles.container__home}>
       {role === "hrspecialist" ? (

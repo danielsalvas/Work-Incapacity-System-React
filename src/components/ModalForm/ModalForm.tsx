@@ -20,7 +20,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
   //Zustand and states
 
   const [dateError, setDateError] = useState("");
-  const [newApplication, setNewApplication] = useState()
+  let id: string;
 
   const { animationModal } = useStore((state) => ({
     animationModal: state.animationModal,
@@ -46,18 +46,22 @@ const ModalFormHr = ({ uid, role }: Props) => {
         setModal(false);
       }, 300);
 
-      //Getting the employee name
+      //Getting the employee ID and name depending in their role
 
-      const employeeId = data.employee;
+      if (role === "employee") {
+        id = uid;
+      } else {
+        id = data.employee;
+      }
 
       const findEmployee = allUsers.find(
-        (user: UserData) => user.employeeId === employeeId
+        (user: UserData) => user.employeeId === id
       );
 
       //Data with employee identifier
 
       const newApplication = {
-        employeeId: employeeId,
+        employeeId: id,
         employee: findEmployee?.name,
         medicalUnit: data.medicalUnit,
         doctor: data.doctor,
@@ -115,7 +119,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
             <div className={styles.container__form__columns}>
               {/* EMPLOYEE */}
 
-              {role === "hrspecialist" && (
+              {role === "hrspecialist" ? (
                 <div className={styles.field}>
                   <p>Choose Employee</p>
 
@@ -134,6 +138,8 @@ const ModalFormHr = ({ uid, role }: Props) => {
                     </span>
                   )}
                 </div>
+              ) : (
+                ""
               )}
 
               {/* MEDICAL UNIT */}

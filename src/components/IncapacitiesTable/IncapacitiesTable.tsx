@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useStore } from "../../store";
 import DataTable from "react-data-table-component";
 import { columnsHr, columnsEmployee } from "../../helpers/dataTableColumns";
 import styles from "./incapacitiesTable.module.css";
@@ -10,9 +11,8 @@ import Spinner from "../Spinner/Spinner";
 const IncapacitiesTable = ({ role, uid }: Props) => {
   //Zustand and states
 
-  const { allIncapacities, loadingData } = useIncapacities();
-  const [searchData, setSearchData] =
-    useState<AllIncapacities[]>(allIncapacities);
+  const { allIncapacities, loadingData, searchData } = useIncapacities();
+  const { setSearchData } = useStore();
 
   //Looking for employee applications with the session started
 

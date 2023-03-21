@@ -5,22 +5,25 @@ interface Store {
   isRegistering: boolean;
   error: string;
   allIncapacities: AllIncapacities[];
+  searchData: AllIncapacities[];
   allUsers: UserData[];
   modal: boolean;
   animationModal: boolean;
   setIsRegistering: (isRegistering: boolean) => void;
   setError: (error: string) => void;
   setAllIncapacities: (allIncapacities: AllIncapacities[]) => void;
+  setSearchData: (searchData: AllIncapacities[]) => void;
   setAllUsers: (AllUsers: UserData[]) => void;
   setModal: (modal: boolean) => void;
   setAnimationModal: (modal: boolean) => void;
-  formatDate: (date: string) => string
+  formatDate: (date: string) => string;
 }
 
 export const useStore = create<Store>((set, get) => ({
   isRegistering: false,
   error: "",
   allIncapacities: [],
+  searchData: [],
   allUsers: [],
   modal: false,
   animationModal: false,
@@ -29,6 +32,7 @@ export const useStore = create<Store>((set, get) => ({
   setAllIncapacities: (allIncapacities) =>
     set({ allIncapacities: allIncapacities }),
   setAllUsers: (allUsers) => set({ allUsers: allUsers }),
+  setSearchData: (searchData) => set({ searchData: searchData }),
   setModal: (modal) => set({ modal: modal }),
   setAnimationModal: (animationModal) =>
     set({ animationModal: animationModal }),
