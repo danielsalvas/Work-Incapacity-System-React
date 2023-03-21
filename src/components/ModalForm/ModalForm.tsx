@@ -5,7 +5,13 @@ import styles from "./modalform.module.css";
 import close from "../../assets/close.svg";
 import useUsers from "../../hooks/useUsers";
 import { currentDate } from "../../helpers/currentDate";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import { AllIncapacities, UserData, Props } from "../../types";
 import { toast } from "react-toastify";
@@ -19,7 +25,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
   const { allUsers } = useUsers();
   const { searchData } = useIncapacities();
 
-  //Zustand and states
+  //Zustand, states and variables
 
   const [dateError, setDateError] = useState("");
   let id: string;
@@ -66,8 +72,9 @@ const ModalFormHr = ({ uid, role }: Props) => {
         (user: UserData) => user.employeeId === id
       );
 
-      //Data with employee and application identifier
+      //Adding a new application with the FORM DATA with employee and application ID
 
+      const collectionRef = collection(firestore, "workIncapacities");
       const newApplication = {
         employeeId: id,
         employee: findEmployee?.name,
@@ -80,9 +87,23 @@ const ModalFormHr = ({ uid, role }: Props) => {
         applicationDate: currentDate,
       };
 
-      console.log(newApplication);
+      addDoc(collectionRef, newApplication)
+        .then((docRef) => {
+          const newDocId = docRef.id;
+          const newApplicationWithId = {
+            ...newApplication,
+            applicationId: newDocId,
+          };
+          setDoc(
+            doc(docRef.firestore, `workIncapacities/${newDocId}`),
+            newApplicationWithId
+          );
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
 
-      //Updating state in screen and database in firebase
+      //Updating state in screen 
 
       if (role === "hrspecialist") {
         const newData: any = [...searchData, newApplication];
@@ -95,7 +116,6 @@ const ModalFormHr = ({ uid, role }: Props) => {
         setSearchApplications(newData);
       }
 
-      addDoc(collection(firestore, "workIncapacities"), newApplication);
       toast.success("Application sent succesfully", {
         position: "top-right",
         autoClose: 3000,

@@ -79,13 +79,12 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
           );
           setSearchData(newData);
         } else {
-          newData = employeeApplications.filter(
+          newData = searchApplications.filter(
             (application: AllIncapacities) =>
               application?.applicationId !== applicationId
           );
           setSearchApplications(newData);
         }
-
         deleteDoc(doc(firestore, "workIncapacities", applicationId));
       }
     });

@@ -17,7 +17,7 @@ const useIncapacities = () => {
   useEffect(() => {
     const queryCollection = collection(firestore, "workIncapacities");
     getDocs(queryCollection).then((res) => {
-      const data = res.docs.map((incapacity) => ({ ...incapacity.data(), applicationId: incapacity.id }));
+      const data = res.docs.map((incapacity) => ({ ...incapacity.data() }));
       setAllIncapacities(data);
       setSearchData(data);
     });
