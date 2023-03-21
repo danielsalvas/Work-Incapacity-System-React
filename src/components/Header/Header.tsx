@@ -17,7 +17,7 @@ const Header = ({ uid, role }: Props) => {
 
   //Zustand and states
 
-  const { modal, animationModal } = useStore((state) => ({
+  const { modal } = useStore((state) => ({
     modal: state.modal,
     animationModal: state.animationModal,
   }));

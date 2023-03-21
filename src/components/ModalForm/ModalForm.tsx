@@ -103,7 +103,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
           console.error("Error adding document: ", error);
         });
 
-      //Updating state in screen 
+      //Updating state in screen
 
       if (role === "hrspecialist") {
         const newData: any = [...searchData, newApplication];
@@ -116,18 +116,9 @@ const ModalFormHr = ({ uid, role }: Props) => {
         setSearchApplications(newData);
       }
 
-      toast.success("Application sent succesfully", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.success("Application sent succesfully");
     } else {
-      setDateError("startDate is older than endDate");
+      setDateError("startDate is older or equal than endDate");
     }
   };
 

@@ -10,10 +10,10 @@ const firebaseConfig = {
   projectId: "work-incapacity-system",
   storageBucket: "work-incapacity-system.appspot.com",
   messagingSenderId: "846269422837",
-  appId: "1:846269422837:web:1eec0fac5618efd075b9bc"
+  appId: "1:846269422837:web:1eec0fac5618efd075b9bc",
 };
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
-export default firebaseApp
+export default firebaseApp;

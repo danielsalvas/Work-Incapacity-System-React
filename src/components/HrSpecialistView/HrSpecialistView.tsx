@@ -12,7 +12,7 @@ const HrSpecialistView = ({ uid, role }: Props) => {
   const { modal } = useStore((state) => ({
     modal: state.modal,
   }));
-  
+
   return (
     <div className={`${modal ? styles["fixed"] : ""}`}>
       <Header uid={uid} role={role} />

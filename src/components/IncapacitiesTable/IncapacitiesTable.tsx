@@ -3,17 +3,16 @@ import { useStore } from "../../store";
 import DataTable from "react-data-table-component";
 import styles from "./incapacitiesTable.module.css";
 import useIncapacities from "../../hooks/useIncapacities";
-import { Props } from "../../types";
-import { AllIncapacities } from "../../types";
-import Spinner from "../Spinner/Spinner";
+import { Props, AllIncapacities } from "../../types";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import Swal from "sweetalert2";
+import Spinner from "../Spinner/Spinner";
 
 const firestore = getFirestore(firebaseApp);
 
 const IncapacitiesTable = ({ role, uid }: Props) => {
-  //Zustand and states
+  //Zustand, states and custom hooks
 
   const { searchApplications } = useStore((state) => ({
     searchApplications: state.searchApplications,
@@ -79,7 +78,7 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
           );
           setSearchData(newData);
         } else {
-          newData = searchApplications.filter(
+          newData = employeeApplications.filter(
             (application: AllIncapacities) =>
               application?.applicationId !== applicationId
           );
@@ -90,7 +89,7 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
     });
   }
 
-  //Data table component information
+  //Data table component columns and rows
 
   const columnsEmployee = [
     {

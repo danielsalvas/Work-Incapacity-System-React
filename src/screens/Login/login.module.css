@@ -84,6 +84,10 @@ a {
   margin-bottom: 33px;
 }
 
+.form__toggle a {
+  margin-left: 5px;
+}
+
 .account__error {
   color: red;
   font-size: 12px;

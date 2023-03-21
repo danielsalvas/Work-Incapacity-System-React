@@ -36,7 +36,8 @@ export const useStore = create<Store>((set, get) => ({
     set({ allIncapacities: allIncapacities }),
   setAllUsers: (allUsers) => set({ allUsers: allUsers }),
   setSearchData: (searchData) => set({ searchData: searchData }),
-  setSearchApplications: (searchApplications) => set({ searchApplications: searchApplications }),
+  setSearchApplications: (searchApplications) =>
+    set({ searchApplications: searchApplications }),
   setModal: (modal) => set({ modal: modal }),
   setAnimationModal: (animationModal) =>
     set({ animationModal: animationModal }),
