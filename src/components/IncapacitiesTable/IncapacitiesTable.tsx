@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useStore } from "../../store";
 import DataTable from "react-data-table-component";
-import { columnsEmployee } from "../../helpers/currentlyDate";
 import styles from "./incapacitiesTable.module.css";
 import useIncapacities from "../../hooks/useIncapacities";
 import { Props } from "../../types";
@@ -9,14 +8,19 @@ import { AllIncapacities } from "../../types";
 import Spinner from "../Spinner/Spinner";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
+import Swal from "sweetalert2";
 
 const firestore = getFirestore(firebaseApp);
 
 const IncapacitiesTable = ({ role, uid }: Props) => {
   //Zustand and states
 
+  const { searchApplications } = useStore((state) => ({
+    searchApplications: state.searchApplications,
+  }));
+
   const { allIncapacities, loadingData, searchData } = useIncapacities();
-  const { setSearchData } = useStore();
+  const { setSearchData, setSearchApplications } = useStore();
 
   //Looking for employee applications with the session started
 
@@ -26,8 +30,9 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
     }
   );
 
-  const [searchApplications, setSearchApplications] =
-    useState<AllIncapacities[]>(employeeApplications);
+  useEffect(() => {
+    setSearchApplications(employeeApplications);
+  }, []);
 
   //Search Filter
 
@@ -53,22 +58,42 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
 
   //Delete an application in screen and database in firebase
 
+  let newData: AllIncapacities[];
+
   function handleDelete(applicationId: string) {
-    const newData = searchData.filter(
-      (application: AllIncapacities) =>
-        application.applicationId !== applicationId
-    );
-    deleteDoc(doc(firestore, "workIncapacities", applicationId));
-    setSearchData(newData);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "The application has been deleted.", "success");
+        if (role === "hrspecialist") {
+          newData = searchData.filter(
+            (application: AllIncapacities) =>
+              application.applicationId !== applicationId
+          );
+          setSearchData(newData);
+        } else {
+          newData = employeeApplications.filter(
+            (application: AllIncapacities) =>
+              application?.applicationId !== applicationId
+          );
+          setSearchApplications(newData);
+        }
+
+        deleteDoc(doc(firestore, "workIncapacities", applicationId));
+      }
+    });
   }
 
   //Data table component information
 
-  const columnsHr = [
-    {
-      name: "Employee",
-      selector: (row: AllIncapacities) => row.employee,
-    },
+  const columnsEmployee = [
     {
       name: "Medical Diagnostic",
       selector: (row: AllIncapacities) => row.medical,
@@ -108,6 +133,20 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
       ),
     },
   ];
+
+  //If role is hrspecialist add new column to the data table
+
+  let columnsHr: any;
+
+  if (role === "hrspecialist") {
+    columnsHr = [
+      {
+        name: "Employee",
+        selector: (row: AllIncapacities) => row.employee,
+      },
+      ...columnsEmployee,
+    ];
+  }
 
   return (
     <div>

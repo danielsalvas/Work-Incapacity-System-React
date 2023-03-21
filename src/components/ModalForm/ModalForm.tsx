@@ -4,7 +4,7 @@ import { useStore } from "../../store";
 import styles from "./modalform.module.css";
 import close from "../../assets/close.svg";
 import useUsers from "../../hooks/useUsers";
-import { currentlyDate } from "../../helpers/currentlyDate";
+import { currentDate } from "../../helpers/currentDate";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseApp from "../../firebase/credentials";
 import { AllIncapacities, UserData, Props } from "../../types";
@@ -17,18 +17,24 @@ const firestore = getFirestore(firebaseApp);
 const ModalFormHr = ({ uid, role }: Props) => {
   //Custom hooks
   const { allUsers } = useUsers();
-  const { searchData } = useIncapacities()
+  const { searchData } = useIncapacities();
 
   //Zustand and states
 
   const [dateError, setDateError] = useState("");
   let id: string;
 
-  const { animationModal } = useStore((state) => ({
+  const { animationModal, searchApplications } = useStore((state) => ({
     animationModal: state.animationModal,
-    allIncapacities: state.allIncapacities,
+    searchApplications: state.searchApplications,
   }));
-  const { setModal, setAnimationModal, formatDate, setSearchData } = useStore();
+  const {
+    setModal,
+    setAnimationModal,
+    formatDate,
+    setSearchData,
+    setSearchApplications,
+  } = useStore();
 
   const {
     register,
@@ -71,17 +77,23 @@ const ModalFormHr = ({ uid, role }: Props) => {
         startDate: formatDate(data.startDate),
         endDate: formatDate(data.endDate),
         medical: data.medical,
-        applicationDate: currentlyDate,
+        applicationDate: currentDate,
       };
+
+      console.log(newApplication);
 
       //Updating state in screen and database in firebase
 
-      const newData: any = [
-        ...searchData,
-        newApplication,
-      ];
-
-      setSearchData(newData)
+      if (role === "hrspecialist") {
+        const newData: any = [...searchData, newApplication];
+        setSearchData(newData);
+      } else {
+        const newData: AllIncapacities[] = [
+          ...searchApplications,
+          newApplication,
+        ];
+        setSearchApplications(newData);
+      }
 
       addDoc(collection(firestore, "workIncapacities"), newApplication);
       toast.success("Application sent succesfully", {
@@ -153,46 +165,6 @@ const ModalFormHr = ({ uid, role }: Props) => {
                 ""
               )}
 
-              {/* MEDICAL UNIT */}
-
-              <div className={styles.field}>
-                <p>Medical Unit</p>
-                <input
-                  type="text"
-                  placeholder="ISSS"
-                  {...register("medicalUnit", {
-                    required: true,
-                  })}
-                />
-
-                {errors.medicalUnit && (
-                  <span className={styles.error}>
-                    {errors.medicalUnit.type === "required" &&
-                      "This field is required"}
-                  </span>
-                )}
-              </div>
-
-              {/* DOCTOR */}
-
-              <div className={styles.field}>
-                <p>Doctor</p>
-                <input
-                  type="text"
-                  placeholder="Francisco Menjivar"
-                  {...register("doctor", {
-                    required: true,
-                  })}
-                />
-
-                {errors.doctor && (
-                  <span className={styles.error}>
-                    {errors.doctor.type === "required" &&
-                      "This field is required"}
-                  </span>
-                )}
-              </div>
-
               {/* DAYS OF COVERAGE */}
 
               <div className={styles.field}>
@@ -214,6 +186,26 @@ const ModalFormHr = ({ uid, role }: Props) => {
                 )}
               </div>
 
+              {/* MEDICAL UNIT */}
+
+              <div className={styles.field}>
+                <p>Medical Unit</p>
+                <input
+                  type="text"
+                  placeholder="ISSS"
+                  {...register("medicalUnit", {
+                    required: true,
+                  })}
+                />
+
+                {errors.medicalUnit && (
+                  <span className={styles.error}>
+                    {errors.medicalUnit.type === "required" &&
+                      "This field is required"}
+                  </span>
+                )}
+              </div>
+
               {/* SICK LEAVE START DATE*/}
 
               <div className={styles.field}>
@@ -229,6 +221,26 @@ const ModalFormHr = ({ uid, role }: Props) => {
                 {errors.startDate && (
                   <span className={styles.error}>
                     {errors.startDate.type === "required" &&
+                      "This field is required"}
+                  </span>
+                )}
+              </div>
+
+              {/* DOCTOR */}
+
+              <div className={styles.field}>
+                <p>Doctor</p>
+                <input
+                  type="text"
+                  placeholder="Francisco Menjivar"
+                  {...register("doctor", {
+                    required: true,
+                  })}
+                />
+
+                {errors.doctor && (
+                  <span className={styles.error}>
+                    {errors.doctor.type === "required" &&
                       "This field is required"}
                   </span>
                 )}
@@ -260,6 +272,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
           </div>
 
           {/* MEDICAL DIAGNOSTIC */}
+
           <p className={styles.medical__diagnostic__paragraph}>
             Medical Diagnostic
           </p>

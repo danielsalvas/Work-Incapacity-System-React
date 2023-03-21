@@ -6,6 +6,7 @@ interface Store {
   error: string;
   allIncapacities: AllIncapacities[];
   searchData: AllIncapacities[];
+  searchApplications: any;
   allUsers: UserData[];
   modal: boolean;
   animationModal: boolean;
@@ -13,6 +14,7 @@ interface Store {
   setError: (error: string) => void;
   setAllIncapacities: (allIncapacities: AllIncapacities[]) => void;
   setSearchData: (searchData: AllIncapacities[]) => void;
+  setSearchApplications: (searchApplications: any) => void;
   setAllUsers: (AllUsers: UserData[]) => void;
   setModal: (modal: boolean) => void;
   setAnimationModal: (modal: boolean) => void;
@@ -24,6 +26,7 @@ export const useStore = create<Store>((set, get) => ({
   error: "",
   allIncapacities: [],
   searchData: [],
+  searchApplications: [],
   allUsers: [],
   modal: false,
   animationModal: false,
@@ -33,6 +36,7 @@ export const useStore = create<Store>((set, get) => ({
     set({ allIncapacities: allIncapacities }),
   setAllUsers: (allUsers) => set({ allUsers: allUsers }),
   setSearchData: (searchData) => set({ searchData: searchData }),
+  setSearchApplications: (searchApplications) => set({ searchApplications: searchApplications }),
   setModal: (modal) => set({ modal: modal }),
   setAnimationModal: (animationModal) =>
     set({ animationModal: animationModal }),
