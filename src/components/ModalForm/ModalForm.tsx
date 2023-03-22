@@ -85,18 +85,16 @@ const ModalFormHr = ({ uid, role }: Props) => {
         endDate: formatDate(data.endDate),
         medical: data.medical,
         applicationDate: currentDate,
+        applicationId: "", 
       };
 
       addDoc(collectionRef, newApplication)
         .then((docRef) => {
           const newDocId = docRef.id;
-          const newApplicationWithId = {
-            ...newApplication,
-            applicationId: newDocId,
-          };
+          newApplication.applicationId = newDocId;
           setDoc(
             doc(docRef.firestore, `workIncapacities/${newDocId}`),
-            newApplicationWithId
+            newApplication
           );
         })
         .catch((error) => {
@@ -106,13 +104,14 @@ const ModalFormHr = ({ uid, role }: Props) => {
       //Updating state in screen
 
       if (role === "hrspecialist") {
-        const newData: any = [...searchData, newApplication];
-        
+        const newData: any = [newApplication, ...searchData];
+        console.log(newData);
+
         setSearchData(newData);
       } else {
         const newData: AllIncapacities[] = [
-          ...searchApplications,
           newApplication,
+          ...searchApplications,
         ];
         setSearchApplications(newData);
       }
