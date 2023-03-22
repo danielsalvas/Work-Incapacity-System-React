@@ -143,7 +143,7 @@ const Login = () => {
             )}
 
             {!isRegistering && (
-              <a className={styles.forgot__password} href="">
+              <a className={styles.forgot__password}>
                 Forgot password?
               </a>
             )}

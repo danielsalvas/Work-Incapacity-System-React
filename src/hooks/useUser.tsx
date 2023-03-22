@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import firebaseApp from "../firebase/credentials";
+import { UserData } from "../types";
 
 const firestore = getFirestore(firebaseApp);
 
