@@ -26,9 +26,8 @@ const ModalFormHr = ({ uid, role }: Props) => {
   const { searchData } = useIncapacities();
 
   //Zustand, states and variables
-
-  const [dateError, setDateError] = useState("");
   let id: string;
+  const [dateError, setDateError] = useState("");
 
   const { animationModal, searchApplications } = useStore((state) => ({
     animationModal: state.animationModal,
@@ -39,6 +38,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
     setAnimationModal,
     formatDate,
     setSearchData,
+    setAllIncapacities,
     setSearchApplications,
   } = useStore();
 
@@ -107,6 +107,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
         const newData: any = [newApplication, ...searchData];
 
         setSearchData(newData);
+        setAllIncapacities(newData)
       } else {
         const newData: AllIncapacities[] = [
           newApplication,

@@ -15,13 +15,13 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
   //Zustand, states and custom hooks
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const { searchApplications, error } = useStore((state) => ({
+  const [errorDate, setErrorDate] = useState("")
+  const { searchApplications } = useStore((state) => ({
     searchApplications: state.searchApplications,
-    error: state.error,
   }));
 
   const { allIncapacities, loadingData, searchData } = useIncapacities();
-  const { setSearchData, setSearchApplications, setError } = useStore();
+  const { setSearchData, setSearchApplications } = useStore();
 
   //Looking for employee applications with the session started
 
@@ -68,7 +68,7 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
             dateObject >= new Date(fromDate) && dateObject <= new Date(toDate)
           );
         });
-        setError("");
+        setErrorDate("");
         setSearchData(newSearchData);
       } else {
           const newSearchData = employeeApplications.filter((row: AllIncapacities) => {
@@ -78,11 +78,11 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
           );
           }
         );
-        setError("");
+        setErrorDate("");
         setSearchApplications(newSearchData);
       }
     } else {
-      setError("You must enter both dates");
+      setErrorDate("You must enter both dates");
     }
   }
 
@@ -202,7 +202,7 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
               onChange={(e) => setFromDate(e.target.value)}
               required
             />
-            <span className={styles.dates__filter__error}>{error}</span>
+            <span className={styles.dates__filter__error}>{errorDate}</span>
           </div>
           <div className={styles.container__input__label}>
             <label htmlFor="">To</label>
