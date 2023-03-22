@@ -38,6 +38,11 @@
   width: 100%;
   justify-content: space-around;
 }
+.dates__filter__error {
+  color: red;
+  font-size: 12px;
+  text-align: center;
+}
 .input__search {
   width: 763px;
   height: 47px;

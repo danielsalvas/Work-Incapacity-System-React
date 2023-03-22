@@ -49,5 +49,5 @@ export const useStore = create<Store>((set) => ({
     const year = newDate.getFullYear();
 
     return `${day}/${month}/${year}`;
-  },
+  }
 }));

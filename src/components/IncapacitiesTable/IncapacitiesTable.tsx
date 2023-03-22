@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useStore } from "../../store";
 import DataTable from "react-data-table-component";
 import styles from "./incapacitiesTable.module.css";
@@ -13,13 +13,15 @@ const firestore = getFirestore(firebaseApp);
 
 const IncapacitiesTable = ({ role, uid }: Props) => {
   //Zustand, states and custom hooks
-
-  const { searchApplications } = useStore((state) => ({
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const { searchApplications, error } = useStore((state) => ({
     searchApplications: state.searchApplications,
+    error: state.error,
   }));
 
   const { allIncapacities, loadingData, searchData } = useIncapacities();
-  const { setSearchData, setSearchApplications } = useStore();
+  const { setSearchData, setSearchApplications, setError } = useStore();
 
   //Looking for employee applications with the session started
 
@@ -52,6 +54,35 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
         }
       );
       setSearchApplications(newSearchData);
+    }
+  }
+
+  //Date Filter
+
+  function handleDateFilter() {
+    if (!(toDate === "" || fromDate === "")) {
+      if (role === "hrspecialist") {
+          const newSearchData = allIncapacities.filter((row: AllIncapacities) => {
+          const dateObject = new Date(`20${row.applicationDate.split("/").reverse().join("-")}`);
+          return (
+            dateObject >= new Date(fromDate) && dateObject <= new Date(toDate)
+          );
+        });
+        setError("");
+        setSearchData(newSearchData);
+      } else {
+          const newSearchData = employeeApplications.filter((row: AllIncapacities) => {
+          const dateObject = new Date(`20${row.applicationDate.split("/").reverse().join("-")}`);
+          return (
+            dateObject >= new Date(fromDate) && dateObject <= new Date(toDate)
+          );
+          }
+        );
+        setError("");
+        setSearchApplications(newSearchData);
+      }
+    } else {
+      setError("You must enter both dates");
     }
   }
 
@@ -165,14 +196,25 @@ const IncapacitiesTable = ({ role, uid }: Props) => {
         <div className={styles.date__filters}>
           <div className={styles.container__input__label}>
             <label htmlFor="">From</label>
-            <input type="date" />
+            <input
+              type="date"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              required
+            />
+            <span className={styles.dates__filter__error}>{error}</span>
           </div>
           <div className={styles.container__input__label}>
             <label htmlFor="">To</label>
-            <input type="date" />
+            <input
+              type="date"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+              required
+            />
           </div>
           <div className={styles.button__filter}>
-            <button>Filter</button>
+            <button onClick={() => handleDateFilter()}>Filter</button>
           </div>
         </div>
       </div>

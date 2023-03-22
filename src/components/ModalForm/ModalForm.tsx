@@ -85,7 +85,7 @@ const ModalFormHr = ({ uid, role }: Props) => {
         endDate: formatDate(data.endDate),
         medical: data.medical,
         applicationDate: currentDate,
-        applicationId: "", 
+        applicationId: "",
       };
 
       addDoc(collectionRef, newApplication)
@@ -105,7 +105,6 @@ const ModalFormHr = ({ uid, role }: Props) => {
 
       if (role === "hrspecialist") {
         const newData: any = [newApplication, ...searchData];
-        console.log(newData);
 
         setSearchData(newData);
       } else {
